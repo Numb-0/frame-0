@@ -1,0 +1,7 @@
+@use "colorschemes" as *;
+
+window.Bar {
+    centerbox {
+        background-color: var(--base06);
+    }
+}
