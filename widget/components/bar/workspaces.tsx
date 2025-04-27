@@ -8,6 +8,7 @@ export default function Workspaces() {
   function WorkspaceButton({ workspace }: { workspace: number }): JSX.Element {
     return (
       <button
+        valign={CENTER}
         cssClasses={bind(hyprland, "focused_workspace").as((ws) =>
           ws.id == workspace
             ? ["workspace", "active"]
@@ -21,13 +22,13 @@ export default function Workspaces() {
             : null
         }
       >
-        <image iconName={"hexagon-symbolic"} />
+        <box cssClasses={["appIcon"]}/>
       </button>
     );
   }
 
   return (
-      <box spacing={2} cssClasses={["workspaces"]}>
+      <box spacing={4} cssClasses={["workspaces"]}>
         {workspaces.map((workspace) => (
           <WorkspaceButton workspace={workspace} />
         ))}

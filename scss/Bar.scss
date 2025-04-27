@@ -1,10 +1,107 @@
 @use "colorschemes" as *;
-@use "Defaults" as *;
+@use "Default" as *;
+@use "Animations" as *;
 
 window.Bar {
-    padding: var(--padding);
-    centerbox {
-        border-radius: var(--radius);
-        background-color: var(--base00);
+  padding: 0.4rem;
+
+  * {
+    -gtk-icon-size: 1.3rem;
+  }
+
+  centerbox {
+    border-radius: var(--radius);
+    background-color: var(--base01);
+    padding: 0 0.4rem 0;
+    transition: all 0.8s;
+
+    image.logo {
+      -gtk-icon-size: 1.5rem;
+      color: var(--base0D);
     }
+
+    box.workspaces {
+      button.workspace {
+        padding: 0.3rem;
+        border-radius: 20px;
+        min-height: 0.4rem;
+        min-width: 0.4rem;
+        background-color: var(--base05);
+        transition: all 0.8s;
+
+        &.active {
+          min-width: 0.9rem;
+          background-color: var(--base0A);
+        }
+
+        &.occupied {
+          background-color: var(--base0E);
+        }
+      }
+    }
+
+    button.theme {
+      color: var(--base0C);
+      background-color: transparent;
+      transition: all 0.8s;
+
+      &.active {
+        image {
+          animation: wiggle-active 1.5s ease-in-out;
+        }
+      }
+
+      &.deactive {
+        image {
+          animation: wiggle-deactive 1.5s ease-in-out;
+        }
+      }
+    }
+
+    box.volume {
+      color: var(--base0B);
+      transition: all 0.8s;
+
+      highlight {
+        background-color: var(--base0B);
+      }
+
+      scale {
+        padding: 0.3rem 0.2rem 0.3rem;
+        trough {
+          min-height: 0.8rem;
+          slider {
+            all: unset;
+          }
+        }
+        highlight {
+          background-color: var(--base0B);
+        }
+      }
+    }
+
+    box.battery {
+      color: var(--base0A);
+      transition: all 0.8s;
+
+      levelbar {
+        padding: 0.3rem 0.2rem 0.3rem;
+
+        trough {
+          min-height: 0.8rem;
+          block {
+            transition: all 0.8s;
+
+            &.filled {
+              background-color: var(--base0A);
+            }
+
+            &.filled.danger {
+              background-color: var(--base08);
+            }
+          }
+        }
+      }
+    }
+  }
 }

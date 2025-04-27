@@ -1,21 +1,16 @@
 import { bind, execAsync, Variable } from "astal";
-import { App, Astal, Gtk, Gdk, hook } from "astal/gtk4";
-
-// Take a look in scss/colorschemes
-const colorschemes = ["catppuccin","gruv"]
-export const themeVar = Variable<string>(colorschemes[0])
 
 export default function ThemesChanger() {
-
-    var currentIndex = bind(themeVar).as(value => colorschemes.indexOf(value))
-
+    var currentIndex = bind(THEME).as(value => COLORSCHEMES.indexOf(value))
+    const animating = Variable<boolean>(false)
     const changeTheme = () => {
-        themeVar.set(colorschemes[(currentIndex.get() + 1) % colorschemes.length]);
+        animating.set(!animating.get())
+        THEME.set(COLORSCHEMES[(currentIndex.get() + 1) % COLORSCHEMES.length]);
     }
 
     return (
-        <button onClicked={changeTheme}>
-            {bind(themeVar)}
+        <button cssClasses={animating().as((animating) => ["theme", animating ? "active" : "deactive"])} onClicked={changeTheme}>
+            <image iconName={"arrow-symbolic"}></image>
         </button>
     )
 }

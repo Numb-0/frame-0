@@ -1,6 +1,5 @@
 import { readFile, readFileAsync, writeFileAsync, monitorFile, Gio } from "astal/file";
-import './global';
-import { themeVar } from "../widget/components/bar/themeChanger";
+import "./global"
 
 type Options = {
     theme: string;
@@ -18,14 +17,14 @@ export class OptionsManager {
     private fileMonitor: Gio.FileMonitor | null = null;
 
     private constructor() {
-        themeVar.subscribe((theme) => { this.options.theme = theme; this.saveOptions()})
+        THEME.subscribe((theme) => { this.options.theme = theme; this.saveOptions()})
         
         this.optionsPath = `${HOME}/.config/frame-0/options.json`;
         this.options = {
-            theme: themeVar.get(),
+            theme: THEME.get(),
         };
         this.optionsSetters = {
-            theme: (value: string) => themeVar.set(value),
+            theme: (value: string) => THEME.set(value),
         };
     }
 
