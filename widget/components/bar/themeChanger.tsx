@@ -7,11 +7,10 @@ export const themeVar = Variable<string>(colorschemes[0])
 
 export default function ThemesChanger() {
 
-    var currentIndex = 0
+    var currentIndex = bind(themeVar).as(value => colorschemes.indexOf(value))
 
     const changeTheme = () => {
-        currentIndex = (currentIndex + 1) % colorschemes.length
-        themeVar.set(colorschemes[currentIndex]);
+        themeVar.set(colorschemes[(currentIndex.get() + 1) % colorschemes.length]);
     }
 
     return (

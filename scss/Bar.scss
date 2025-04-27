@@ -1,7 +1,10 @@
 @use "colorschemes" as *;
+@use "Defaults" as *;
 
 window.Bar {
+    padding: var(--padding);
     centerbox {
-        background-color: var(--base06);
+        border-radius: var(--radius);
+        background-color: var(--base00);
     }
 }

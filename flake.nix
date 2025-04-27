@@ -44,7 +44,6 @@
     # nix develop
     devShells.${system}.default = pkgs.mkShell {
       buildInputs = [
-        # includes astal3 astal4 astal-io by default
         (ags.packages.${system}.default.override { 
           extraPackages = [
             ags.packages.${system}.io
