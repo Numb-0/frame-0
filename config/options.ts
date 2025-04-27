@@ -19,6 +19,7 @@ export class OptionsManager {
 
     private constructor() {
         themeVar.subscribe((theme) => { this.options.theme = theme; this.saveOptions()})
+        
         this.optionsPath = `${HOME}/.config/frame-0/options.json`;
         this.options = {
             theme: themeVar.get(),
