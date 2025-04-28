@@ -1,0 +1,32 @@
+window.Applauncher {
+  box {
+    background-color: var(--base01);
+    padding: 0.6rem;
+    border-radius: var(--radius);
+    entry {
+      outline-color: var(--base05);
+      background-color: var(--base00);
+      font-weight: bold;
+      font-size: large;
+      color: var(--base05)
+    }
+
+    scrolledwindow {
+      // Measured Height from appbutton ags inspector
+      min-height: 61px;
+      scrollbar {
+        &.overlay-indicator {
+          opacity: 0;
+        }
+      }    
+      grid {
+        .appbutton {
+          outline-color: var(--base05);
+          image {
+            -gtk-icon-size: 3.5rem;
+          }
+        }
+      }
+    }
+  }
+}

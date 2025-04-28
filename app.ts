@@ -2,6 +2,7 @@ import { App } from "astal/gtk4"
 import style from "./scss/style.scss";
 import Bar from "./widget/Bar"
 import { optionsManager } from "./config/options";
+import Applauncher from "./widget/Applauncher";
 
 App.start({
     icons: `${SRC}/assets`,
@@ -9,5 +10,24 @@ App.start({
     main() {
         optionsManager
         App.get_monitors().map(Bar)
+        Applauncher()
     },
+    requestHandler(request: string, res: (response: any) => void) {
+        switch (request) {
+          case "applauncher":
+            App.toggle_window("Applauncher");
+            break;
+        //   case "dashboard":
+        //     App.toggle_window("Dashboard");
+        //     break;
+        //   case "pldashboard":
+        //     App.toggle_window("PlayerDashboard");
+        //     break;
+        //   case "poweractions":
+        //     App.toggle_window("PowerActions");
+        //     break;
+        //   case "clearnotification":            break;
+        }
+        return res("toggled window");
+      },    
 })
