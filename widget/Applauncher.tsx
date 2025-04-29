@@ -5,6 +5,7 @@ import Hyprland from "gi://AstalHyprland";
 import Grid from "./components/astalified/Grid";
 import ScrolledWindow from "./components/astalified/ScrolledWindow";
 import { Entry } from "astal/gtk4/widget";
+import FlowBox from "./components/astalified/FlowBox";
 
 export default function Applauncher() {
   const hyprland = Hyprland.get_default();
@@ -13,7 +14,7 @@ export default function Applauncher() {
     entryMultiplier: 0,
     executableMultiplier: 2,
   });
-  const appList = apps.fuzzy_query("");
+  const appList = apps.fuzzy_query("")
 
   function AppButton({ app }: { app: Apps.Application }): JSX.Element {
     return (
@@ -21,9 +22,10 @@ export default function Applauncher() {
         cssClasses={["appbutton"]}
         tooltipText={app.name}
         name={app.name}
-        onActivate={() => {
+        onActivate={(self) => {
           app.launch();
           App.toggle_window("Applauncher");
+          self.parent.set_state_flags(Gtk.StateFlags.NORMAL, true);
         }}
       >
         <image iconName={app.get_icon_name() || ""} />
@@ -32,10 +34,11 @@ export default function Applauncher() {
   }
 
   const appButtons = appList.map((app) => AppButton({app}))
-  
-  function sort_appbuttons(text: string) {
+
+  function filter_appbuttons(text: string) {
     appButtons.forEach(appbutton => {
-      appbutton.name.toLowerCase().includes(text.toLowerCase()) ? appbutton.show() : appbutton.hide()
+      appbutton.name.toLowerCase().includes(text.toLowerCase()) ? appbutton.parent.show() : appbutton.parent.hide()
+      appbutton.parent.set_state_flags(Gtk.StateFlags.NORMAL, true);
     })
   }
 
@@ -55,11 +58,11 @@ export default function Applauncher() {
       onKeyPressed={(self, keyval) => keyval === Gdk.KEY_Escape && self.hide()}
     >
       <box halign={Gtk.Align.CENTER} valign={Gtk.Align.CENTER} vertical={true} spacing={8}>
-        <entry onActivate={(self) => { launch_first_visible_app(); self.text = "" }} onChanged={self => sort_appbuttons(self.text)}/>
+        <entry onActivate={(self) => { launch_first_visible_app(); self.text = "" }} onChanged={self => filter_appbuttons(self.text)}/>
         <ScrolledWindow hscrollbarPolicy={Gtk.PolicyType.NEVER}>
-          <Grid rowSpacing={4} columnSpacing={6}>
+          <FlowBox homogeneous minChildrenPerLine={4}>
             {appButtons}
-          </Grid>
+          </FlowBox>
         </ScrolledWindow>
       </box>
     </window>

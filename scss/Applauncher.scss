@@ -13,20 +13,26 @@ window.Applauncher {
 
     scrolledwindow {
       // Measured Height from appbutton ags inspector
-      min-height: 61px;
+      min-height: 67px;
       scrollbar {
         &.overlay-indicator {
           opacity: 0;
         }
-      }    
-      grid {
-        .appbutton {
+      }
+      flowbox {
+        flowboxchild {
           outline-color: var(--base05);
-          image {
-            -gtk-icon-size: 3.5rem;
+          .appbutton {
+            padding: 0.4rem;
+            image {
+              -gtk-icon-size: 3.5rem;
+            }
+          }
+          &:selected {
+            background-color: transparent;
           }
         }
-      }
+      }    
     }
   }
 }
