@@ -22,10 +22,9 @@ export default function Applauncher() {
         cssClasses={["appbutton"]}
         tooltipText={app.name}
         name={app.name}
-        onActivate={(self) => {
+        onActivate={() => {
           app.launch();
           App.toggle_window("Applauncher");
-          self.parent.set_state_flags(Gtk.StateFlags.NORMAL, true);
         }}
       >
         <image iconName={app.get_icon_name() || ""} />
@@ -38,7 +37,6 @@ export default function Applauncher() {
   function filter_appbuttons(text: string) {
     appButtons.forEach(appbutton => {
       appbutton.name.toLowerCase().includes(text.toLowerCase()) ? appbutton.parent.show() : appbutton.parent.hide()
-      appbutton.parent.set_state_flags(Gtk.StateFlags.NORMAL, true);
     })
   }
 

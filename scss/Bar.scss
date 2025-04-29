@@ -9,7 +9,7 @@ window.Bar {
     border-radius: var(--radius);
     background-color: var(--base01);
     padding: 0 0.4rem 0;
-    transition: all 0.8s;
+    transition: all 0.6s;
 
     image.logo {
       -gtk-icon-size: 1.5rem;
@@ -23,7 +23,7 @@ window.Bar {
         min-height: 0.4rem;
         min-width: 0.4rem;
         background-color: var(--base05);
-        transition: all 0.8s;
+        transition: all 0.6s;
 
         &.active {
           min-width: 0.9rem;
@@ -39,7 +39,7 @@ window.Bar {
     button.theme {
       color: var(--base0C);
       background-color: transparent;
-      transition: all 0.8s;
+      transition: all 0.6s;
 
       &.active {
         image {
@@ -56,20 +56,22 @@ window.Bar {
 
     box.volume {
       color: var(--base0B);
-      transition: all 0.8s;
+      transition: all 0.6s;
 
       highlight {
         background-color: var(--base0B);
       }
 
       scale {
-        padding: 0.3rem 0.2rem 0.3rem;
         trough {
-          min-height: 0.8rem;
+          min-height: 0.6rem;
+          min-width: 5rem;
+
           slider {
             all: unset;
           }
         }
+
         highlight {
           background-color: var(--base0B);
         }
@@ -78,15 +80,17 @@ window.Bar {
 
     box.battery {
       color: var(--base0A);
-      transition: all 0.8s;
+      transition: all 0.6s;
 
       levelbar {
-        padding: 0.3rem 0.2rem 0.3rem;
+        margin: 0.4rem;
 
         trough {
-          min-height: 0.8rem;
+          min-height: 0.6rem;
+          min-width: 5rem;
+
           block {
-            transition: all 0.8s;
+            transition: all 0.6s;
 
             &.filled {
               background-color: var(--base0A);
@@ -94,6 +98,34 @@ window.Bar {
 
             &.filled.danger {
               background-color: var(--base08);
+            }
+          }
+        }
+      }
+    }
+
+    box.bluetooth {
+      menubutton {
+        button.toggle {
+          padding: 0;
+          color: var(--base0D);
+          background-color: transparent;
+        }
+        popover {
+          arrow {
+            background-color: var(--base01);
+          }
+          contents {
+            background-color: var(--base01);
+            switch {
+              color: var(--base0D);
+              slider {
+                transition: all 0.6s;
+                background-color: var(--base0D);
+              }
+              &:checked {
+                background-color: shade(var(--base0D), 0.6);
+              }
             }
           }
         }

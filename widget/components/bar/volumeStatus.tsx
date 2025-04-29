@@ -13,12 +13,11 @@ export default function VolumeStatus() {
       spacing={2}
       valign={CENTER}
     >
-        <slider 
-          widthRequest={80} 
-          value={bind(speaker, "volume")}
-          onValueChanged={(self) => (speaker.volume = self.value)}
-        />
-        <image iconName={bind(speaker, "volumeIcon")} />
+      <slider
+        value={bind(speaker, "volume")}
+        onValueChanged={(self) => (speaker.volume = self.value)}
+      />
+      <image iconName={bind(speaker, "volumeIcon")} />
     </box>
   );
 }

@@ -16,3 +16,12 @@ label {
   font-size: 1rem;
   font-weight: bold;
 }
+
+tooltip {
+  background-color: var(--base00);
+  padding: 0px;
+  border-radius: var(--radius);
+  label {
+    color: var(--base05);
+  }
+}

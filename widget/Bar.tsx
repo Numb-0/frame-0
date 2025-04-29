@@ -4,6 +4,7 @@ import Workspaces from "./components/bar/workspaces"
 import ThemeChanger from "./components/bar/themeChanger"
 import BatteryStatus from "./components/bar/batteryStatus";
 import VolumeStatus from "./components/bar/volumeStatus";
+import BluetoothStatus from "./components/bar/bluetoothStatus";
 
 
 const time = Variable("").poll(1000, () => { let now = new Date(); return `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`});
@@ -27,7 +28,8 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
                     <label label={time()} />
                 </button>
             </box>
-            <box spacing={8}>
+            <box spacing={4}>
+                <BluetoothStatus />
                 <VolumeStatus />
                 <BatteryStatus />
             </box>
