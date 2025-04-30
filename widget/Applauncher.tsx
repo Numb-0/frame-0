@@ -2,9 +2,7 @@ import { bind } from "astal";
 import { App, Astal, Gdk, Gtk, hook } from "astal/gtk4";
 import Apps from "gi://AstalApps";
 import Hyprland from "gi://AstalHyprland";
-import Grid from "./components/astalified/Grid";
 import ScrolledWindow from "./components/astalified/ScrolledWindow";
-import { Entry } from "astal/gtk4/widget";
 import FlowBox from "./components/astalified/FlowBox";
 
 export default function Applauncher() {
@@ -14,7 +12,7 @@ export default function Applauncher() {
     entryMultiplier: 0,
     executableMultiplier: 2,
   });
-  const appList = apps.fuzzy_query("")
+  const appList = apps.fuzzy_query("");
 
   function AppButton({ app }: { app: Apps.Application }): JSX.Element {
     return (
@@ -32,31 +30,51 @@ export default function Applauncher() {
     );
   }
 
-  const appButtons = appList.map((app) => AppButton({app}))
+  const appButtons = appList.map((app) => AppButton({ app }));
 
   function filter_appbuttons(text: string) {
-    appButtons.forEach(appbutton => {
-      appbutton.name.toLowerCase().includes(text.toLowerCase()) ? appbutton.parent.show() : appbutton.parent.hide()
-    })
+    appButtons.forEach((appbutton) => {
+      appbutton.name.toLowerCase().includes(text.toLowerCase())
+        ? appbutton.parent.show()
+        : appbutton.parent.hide();
+    });
   }
 
   function launch_first_visible_app() {
-    appButtons.find( appbutton => appbutton.visible == true)?.activate()
+    appButtons
+      .find((appbutton) => appbutton.parent.visible == true)
+      ?.activate();
   }
+
+  const entry = (
+    <entry
+      onActivate={(self) => {
+        launch_first_visible_app();
+        self.text = "";
+      }}
+      onNotifyText={(self) => filter_appbuttons(self.text)}
+    />
+  );
 
   return (
     <window
-      anchor={ TOP | RIGHT | LEFT | BOTTOM }
+      anchor={TOP | RIGHT | LEFT | BOTTOM}
       exclusivity={Astal.Exclusivity.EXCLUSIVE}
       keymode={Astal.Keymode.EXCLUSIVE}
       name={"Applauncher"}
       application={App}
-      cssClasses={THEME().as(theme => ["Applauncher", theme])}
+      cssClasses={THEME().as((theme) => ["Applauncher", theme])}
       monitor={bind(hyprland, "focused_monitor").as((monitor) => monitor.id)}
       onKeyPressed={(self, keyval) => keyval === Gdk.KEY_Escape && self.hide()}
+      onNotifyVisible={() => entry.grab_focus()}
     >
-      <box halign={Gtk.Align.CENTER} valign={Gtk.Align.CENTER} vertical={true} spacing={8}>
-        <entry onActivate={(self) => { launch_first_visible_app(); self.text = "" }} onChanged={self => filter_appbuttons(self.text)}/>
+      <box
+        halign={Gtk.Align.CENTER}
+        valign={Gtk.Align.CENTER}
+        vertical={true}
+        spacing={8}
+      >
+        {entry}
         <ScrolledWindow hscrollbarPolicy={Gtk.PolicyType.NEVER}>
           <FlowBox homogeneous minChildrenPerLine={4}>
             {appButtons}

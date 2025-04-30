@@ -22,16 +22,16 @@ export default function Workspaces() {
             : null
         }
       >
-        <box cssClasses={["appIcon"]}/>
+        <box cssClasses={["appIcon"]} />
       </button>
     );
   }
 
   return (
-      <box spacing={4} cssClasses={["workspaces"]}>
-        {workspaces.map((workspace) => (
-          <WorkspaceButton workspace={workspace} />
-        ))}
-      </box>
+    <box spacing={6} cssClasses={["workspaces"]}>
+      {workspaces.map((workspace) => (
+        <WorkspaceButton workspace={workspace} />
+      ))}
+    </box>
   );
 }
