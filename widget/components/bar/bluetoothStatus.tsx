@@ -1,8 +1,12 @@
-import { bind } from "astal";
+import { bind, execAsync } from "astal";
 import Bluetooth from "gi://AstalBluetooth";
 
 export default function BluetoothStatus() {
   const bluetooth = Bluetooth.get_default();
+
+  const custom_icons: { [key: string]: string } = {
+    "audio-headset": "headset-symbolic",
+  };
 
   function toggle_device(device: Bluetooth.Device) {
     if (bluetooth.adapter.powered) {
@@ -20,8 +24,9 @@ export default function BluetoothStatus() {
 
   function DeviceButton({ device }: { device: Bluetooth.Device }): JSX.Element {
     return (
-      <box>
+      <box cssClasses={["device"]}>
         <button
+          hexpand
           onButtonPressed={() =>
             !device.connecting ? toggle_device(device) : null
           }
@@ -30,13 +35,15 @@ export default function BluetoothStatus() {
           )}
         >
           <box spacing={4}>
-            <image iconName={device.get_icon() || device.get_icon()} />
+          {/*<image iconName={custom_icons[device.get_icon()] || device.get_icon()} />*/}
             <label label={device.alias} />
           </box>
         </button>
         <button
+          cssClasses={["forget"]}
           halign={END}
-          // onButtonPressed={()=>forget_device(device)}
+          hexpand
+          onButtonPressed={()=>forget_device(device)}
         >
           <image
             iconName={bind(device, "connecting").as((connecting) =>
@@ -61,6 +68,12 @@ export default function BluetoothStatus() {
       .map((device) => <DeviceButton device={device} />)
   );
 
+  function forget_device(device: Bluetooth.Device) {
+    if (device.paired) {
+      execAsync(["bluetoothctl", "remove", device.address]).catch((err) => console.error(err))
+    }
+  }
+
   return (
     <box cssClasses={["bluetooth"]}>
       <menubutton>
@@ -76,6 +89,8 @@ export default function BluetoothStatus() {
             <box>
               <label label={"Bluetooth"} />
               <switch
+                hexpand
+                halign={END}
                 onNotifyActive={(self) =>
                   self.active
                     ? (bluetooth.adapter.powered = true)

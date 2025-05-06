@@ -1,4 +1,4 @@
-import { bind } from "astal";
+import { bind, timeout } from "astal";
 import { App, Astal, Gdk, Gtk, hook } from "astal/gtk4";
 import Apps from "gi://AstalApps";
 import Hyprland from "gi://AstalHyprland";
@@ -20,6 +20,7 @@ export default function Applauncher() {
         cssClasses={["appbutton"]}
         tooltipText={app.name}
         name={app.name}
+        onButtonPressed={()=> print("sdasdqassdgwgege")}
         onActivate={() => {
           app.launch();
           App.toggle_window("Applauncher");
@@ -38,12 +39,13 @@ export default function Applauncher() {
         ? appbutton.parent.show()
         : appbutton.parent.hide();
     });
+    let fc = appButtons.find((appbutton) => appbutton.parent.visible)?.parent as Gtk.FlowBoxChild
+    if (fc)
+      flowbox.select_child(fc)
   }
 
   function launch_first_visible_app() {
-    appButtons
-      .find((appbutton) => appbutton.parent.visible == true)
-      ?.activate();
+    appButtons.find((appbutton) => appbutton.parent.visible)?.parent.activate()
   }
 
   const entry = (
@@ -54,7 +56,18 @@ export default function Applauncher() {
       }}
       onNotifyText={(self) => filter_appbuttons(self.text)}
     />
-  );
+  )
+
+
+  const flowbox = (
+    <FlowBox homogeneous minChildrenPerLine={4} 
+          onChildActivated={(self, flowchild: Gtk.FlowBoxChild) => {
+            flowchild.child.activate()
+          }}
+          >
+            {appButtons}
+          </FlowBox>
+  ) as Gtk.FlowBox
 
   return (
     <window
@@ -76,9 +89,7 @@ export default function Applauncher() {
       >
         {entry}
         <ScrolledWindow hscrollbarPolicy={Gtk.PolicyType.NEVER}>
-          <FlowBox homogeneous minChildrenPerLine={4}>
-            {appButtons}
-          </FlowBox>
+          {flowbox}        
         </ScrolledWindow>
       </box>
     </window>

@@ -10,7 +10,6 @@ export default function VolumeStatus() {
         dy < 0 ? (speaker.volume += 0.01) : (speaker.volume += -0.01)
       }
       cssClasses={["volume"]}
-      spacing={2}
       valign={CENTER}
     >
       <slider

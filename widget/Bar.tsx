@@ -27,7 +27,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
           <Workspaces />
           <ThemeChanger />
         </box>
-        <box>
+        <box cssClasses={THEME().as((theme) => ["time", theme])}>
           <button>
             <label label={time()} />
           </button>

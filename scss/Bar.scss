@@ -54,6 +54,15 @@ window.Bar {
       }
     }
 
+    box.time {
+      button {
+        background-color: transparent;
+        label {
+          color: var(--base05)
+        }
+      }
+    }
+
     box.volume {
       color: var(--base0B);
       transition: all 0.6s;
@@ -117,6 +126,9 @@ window.Bar {
           }
           contents {
             background-color: var(--base01);
+            label {
+              color: var(--base05);
+            }
             switch {
               color: var(--base0D);
               slider {
@@ -126,6 +138,21 @@ window.Bar {
               &:checked {
                 background-color: shade(var(--base0D), 0.6);
               }
+            }
+
+            box.device {
+                background-color: var(--base02);
+                border-radius: var(--radius);
+                button {
+                  background-color: transparent;
+                }
+
+                button.forget {
+                  &:hover {
+                    transition: all 1s;
+                    background-color: var(--base08);
+                  }
+                }
             }
           }
         }
