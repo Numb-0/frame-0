@@ -4,6 +4,7 @@ import Bar from "./widget/Bar";
 import { optionsManager } from "./config/options";
 import Applauncher from "./widget/Applauncher";
 import PowerActions from "./widget/PowerActions";
+import Notifications from "./widget/Notifications";
 
 App.start({
   icons: `${SRC}/assets`,
@@ -11,6 +12,7 @@ App.start({
   main() {
     optionsManager;
     App.get_monitors().map(Bar);
+    Notifications();
     Applauncher();
     PowerActions();
   },

@@ -140,19 +140,22 @@ window.Bar {
               }
             }
 
-            box.device {
-                background-color: var(--base02);
-                border-radius: var(--radius);
-                button {
-                  background-color: transparent;
+            button.device {
+              outline-color: var(--base0D);
+              padding: 0.2rem 0.4rem 0.2rem;
+              &.connected {
+                label {
+                  color: var(--base0D);
                 }
+              }
+            }
 
-                button.forget {
-                  &:hover {
-                    transition: all 1s;
-                    background-color: var(--base08);
-                  }
-                }
+            button.forget {
+              outline-color: var(--base08);
+              &:hover {
+                transition: all 1s;
+                background-color: var(--base08);
+              }
             }
           }
         }

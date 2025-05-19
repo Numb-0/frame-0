@@ -1,5 +1,6 @@
 import { bind, execAsync } from "astal";
 import Bluetooth from "gi://AstalBluetooth";
+import { Gtk } from "astal/gtk4";
 
 export default function BluetoothStatus() {
   const bluetooth = Bluetooth.get_default();
@@ -24,32 +25,29 @@ export default function BluetoothStatus() {
 
   function DeviceButton({ device }: { device: Bluetooth.Device }): JSX.Element {
     return (
-      <box cssClasses={["device"]}>
+      <box spacing={6}>
         <button
           hexpand
-          onButtonPressed={() =>
+          cssClasses={bind(device, "connected").as((connected) =>
+            connected ? ["device", "connected"] : ["device"]
+          )}
+          onClicked={() =>
             !device.connecting ? toggle_device(device) : null
           }
-          cssClasses={bind(device, "connected").as((connected) =>
-            connected ? ["connected"] : [""]
-          )}
         >
           <box spacing={4}>
-          {/*<image iconName={custom_icons[device.get_icon()] || device.get_icon()} />*/}
+          <image iconName={custom_icons[device.get_icon()] || device.get_icon()} />
             <label label={device.alias} />
           </box>
         </button>
         <button
-          cssClasses={["forget"]}
-          halign={END}
-          hexpand
-          onButtonPressed={()=>forget_device(device)}
-        >
-          <image
-            iconName={bind(device, "connecting").as((connecting) =>
-              connecting ? "network-transmit" : "edit-delete"
-            )}
-          />
+            cssClasses={["forget"]}
+            halign={END}
+            onClicked={()=>forget_device(device)}
+            >
+              <image
+                iconName={"edit-delete"}
+              />
         </button>
       </box>
     );
@@ -85,12 +83,13 @@ export default function BluetoothStatus() {
           )}
         />
         <popover>
-          <box vertical spacing={4}>
+          <box vertical spacing={6}>
             <box>
               <label label={"Bluetooth"} />
               <switch
                 hexpand
                 halign={END}
+                active={bluetooth.adapter.powered}
                 onNotifyActive={(self) =>
                   self.active
                     ? (bluetooth.adapter.powered = true)
@@ -98,7 +97,9 @@ export default function BluetoothStatus() {
                 }
               />
             </box>
-            {device_list}
+            <box homogeneous vertical spacing={6}>
+              {device_list}
+            </box>
           </box>
         </popover>
       </menubutton>
